@@ -100,7 +100,7 @@ onMounted(() => {
       >
         <button
           flex="~"
-          min-h-8 min-w-8 items-center justify-center m="1px"
+          min-h-10 min-w-10 items-center justify-center m="1px"
           border="0.5 gray-700/10"
           @click="handleClick(initArr[(row - 1) * cols + (col - 1)].id)"
           >
