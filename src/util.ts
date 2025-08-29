@@ -1,4 +1,4 @@
-import type { Cell } from '~/types'
+import type { Cell, Direction } from '~/types'
 
 const extend = Object.assign
 const NOMOVE = {
@@ -9,15 +9,18 @@ const NOMOVE = {
 }
 const isOdd = (val: number): boolean => val % 2 === 1
 function isNoSolution(arr: Cell[]): boolean {
-  let count = 0
-  for (let i = 1; i < arr.length; i++) {
-    for (let j = 0; j < i; j++) {
-      if (arr[j].id < arr[i].id)
-        count++
+  let inversions = 0;
+  const len = arr.length;
+
+  for (let i = 0; i < len; i++) {
+    for (let j = i + 1; j < len; j++) {
+      if (arr[i].id > arr[j].id) {
+        inversions++;
+      }
     }
   }
 
-  return isOdd(count)
+  return isOdd(inversions)
 }
 
 function generateArr(length: number): number[] {
@@ -96,7 +99,7 @@ function resolveNewStutas(arr: Cell[], empty: Cell, rows: number, cols: number):
   }
 }
 
-export function changePos(arr: Cell[], direction: 'down' | 'up' | 'right' | 'left', rows: number, cols: number): Cell[] {
+export function changePos(arr: Cell[], direction: Direction, rows: number, cols: number): Cell[] {
   const targetItem = arr.find(item => item[direction])
   if (!targetItem)
     return arr
@@ -133,8 +136,12 @@ export function changePos(arr: Cell[], direction: 'down' | 'up' | 'right' | 'lef
   return arr
 }
 
-export function isOK(arr: Cell[], poetic: string): boolean {
+export function isOrder(arr: Cell[], poetic: string): boolean {
   return arr.map(item => poetic[item.id]).join('') === poetic
+}
+
+export function isOK(arr: Cell[], poetic: string): boolean {
+  return arr.map(item => poetic[item.id]).join('').substring(0, poetic.length - 3) === poetic.substring(0, poetic.length - 3) && poetic[arr[arr.length - 1].id] === poetic[poetic.length - 1]
 }
 
 export function init(rows: number, cols: number, poetic: string): Cell[] {

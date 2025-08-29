@@ -7,3 +7,5 @@ export interface Cell {
   left?: boolean
   right?: boolean
 }
+
+export type Direction = 'up' | 'down' | 'left' | 'right'

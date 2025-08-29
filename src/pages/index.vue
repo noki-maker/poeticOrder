@@ -1,25 +1,30 @@
 <script setup lang="ts">
-import { changePos, init, isOK } from '~/util'
+import { changePos, init, isOK, isOrder } from '~/util'
 
 defineOptions({
   name: 'IndexPage',
 })
 
-const first = '绿蚁新醅酒，红泥小火炉。晚来天欲雪，能饮一杯无？'
+const poetic = '绿蚁新醅酒，红泥小火炉。晚来天欲雪，能饮一杯无？'
+// const poetic = '两个黄鹂鸣翠柳，一行白鹭上青天。窗含西岭千秋雪，门泊东吴万里船。'
 
 const passed = ref(false)
 const rows = ref(4)
 const cols = ref(6)
-const initArr = ref(init(rows.value, cols.value, first))
-
-watchEffect(() => {
-  passed.value = false
-  initArr.value = init(rows.value, cols.value, first)
-})
+const initArr = ref(init(rows.value, cols.value, poetic))
 
 function newGame() {
   passed.value = false
-  initArr.value = init(rows.value, cols.value, first)
+  initArr.value = init(rows.value, cols.value, poetic)
+}
+
+function showContent(row: number, col: number) {
+  if(passed.value && !isOrder(initArr.value, poetic ) && row === rows.value) {
+    if(col === cols.value - 2 || col === cols.value - 1) {
+      return poetic[(row - 1) * cols.value + col - 1]
+    }
+  }
+  return initArr.value[(row - 1) * cols.value + (col - 1)].id === rows.value * cols.value - 1 && !passed.value ? '' : poetic[initArr.value[(row - 1) * cols.value + (col - 1)].id]
 }
 
 function handleClick(id: number) {
@@ -41,7 +46,7 @@ function handleClick(id: number) {
 
     if (res && res.length > 0) {
       initArr.value = res
-      if (isOK(res, first))
+      if (isOK(res, poetic))
         passed.value = true
     }
   }
@@ -66,7 +71,7 @@ onMounted(() => {
     }
     if (res && res.length > 0) {
       initArr.value = res
-      if (isOK(res, first))
+      if (isOK(res, poetic))
         passed.value = true
     }
   })
@@ -104,7 +109,7 @@ onMounted(() => {
           border="0.5 gray-700/10"
           @click="handleClick(initArr[(row - 1) * cols + (col - 1)].id)"
           >
-          {{ initArr[(row - 1) * cols + (col - 1)].id === rows * cols - 1 && !passed ? '' : first[initArr[(row - 1) * cols + (col - 1)].id] }}
+          {{ showContent(row, col) }}
         </button>
       </div>
     </div>
