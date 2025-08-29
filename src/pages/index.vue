@@ -145,11 +145,10 @@ onMounted(() => {
     </div>
 
     <div v-show="visible" class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="w200 border rounded-xl p-4 bg-white">
+      <div class="w-5/6 border rounded-xl p-4 bg-white">
         <p class="pb-2">自定义诗句(记得换行)</p>
-        <textarea v-model="customPoetic" rows="10" cols="88" class="border p-2 outline-none"></textarea>
-        <div class="flex">
-          <div class="flex-auto"></div>
+        <textarea v-model="customPoetic" rows="10" class="w-full border p-2 outline-none"></textarea>
+        <div class="flex justify-center">
           <button type="button" class="m-3 text-sm btn bg-white text-gray-800 border hover:bg-white" @click="customPoeticCancel">取消</button>
           <button type="button" class="m-3 text-sm btn" @click="customPoeticConfirm">确定</button>
         </div>
