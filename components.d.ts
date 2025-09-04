@@ -10,5 +10,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Confetti: typeof import('./src/components/Confetti.vue')['default']
+    Footer: typeof import('./src/components/Footer.vue')['default']
   }
 }
